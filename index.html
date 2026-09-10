@@ -2289,20 +2289,74 @@ function hideUPI(){
    UPI PAYMENT
    ========================================================= */
 
-function payWithUPI(){
+function payWithUPI() {
 
-    const amount =
-        getCartTotal().toFixed(2);
+    const amount = getCartTotal();
 
+    if (amount <= 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    // Get customer details
+    const name = document.getElementById("customerName").value.trim();
+    const phone = document.getElementById("customerPhone").value.trim();
+    const email = document.getElementById("customerEmail").value.trim();
+    const address = document.getElementById("customerAddress").value.trim();
+    const city = document.getElementById("customerCity").value.trim();
+    const pin = document.getElementById("customerPin").value.trim();
+
+    // Check customer details
+    if (!name || !phone || !email || !address || !city || !pin) {
+        alert("Please fill in all customer and delivery details before making payment.");
+        return;
+    }
+
+    // Check phone number
+    if (!/^[0-9]{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+    }
+
+    // Check PIN code
+    if (!/^[0-9]{6}$/.test(pin)) {
+        alert("Please enter a valid 6-digit PIN code.");
+        return;
+    }
+
+    // VAELRON UPI ID
+    const upiID = "7995066031@kotak";
+
+    // Create order number
+    const orderNumber =
+        "VR" + Date.now().toString().slice(-8);
+
+    // Payment note
+    const transactionNote =
+        "VAELRON Order " + orderNumber;
+
+    // Save pending payment information
+    localStorage.setItem(
+        "vaelronPendingOrder",
+        orderNumber
+    );
+
+    localStorage.setItem(
+        "vaelronPendingAmount",
+        amount.toFixed(2)
+    );
+
+    // Create UPI payment link
     const upiURL =
         "upi://pay" +
-        "?pa=7995066031@kotak" +
-        "&pn=VAELRON" +
-        "&am=" + amount +
-        "&cu=INR";
+        "?pa=" + encodeURIComponent(upiID) +
+        "&pn=" + encodeURIComponent("VAELRON") +
+        "&am=" + encodeURIComponent(amount.toFixed(2)) +
+        "&cu=INR" +
+        "&tn=" + encodeURIComponent(transactionNote);
 
+    // Open customer's UPI app
     window.location.href = upiURL;
-
 }
 
 
@@ -3217,7 +3271,49 @@ updateCart();
 displayProducts(products);
 
 loadFirebaseProducts();
+    function showPaymentReturnMessage() {
 
+    const pendingOrder =
+        localStorage.getItem("vaelronPendingOrder");
+
+    if (!pendingOrder) return;
+
+    const message =
+        document.getElementById("paymentReturnMessage");
+
+    if (message) {
+        message.style.display = "block";
+    }
+}
+
+document.addEventListener("visibilitychange", function () {
+
+    if (document.visibilityState === "visible") {
+        showPaymentReturnMessage();
+    }
+
+});
+
+window.addEventListener("focus", function () {
+    showPaymentReturnMessage();
+});
+function updateUPIButtonAmount() {
+    const button = document.getElementById("upiPayButton");
+    if (!button) return;
+
+    const total = getCartTotal();
+
+    if (total > 0) {
+        button.textContent =
+            "PAY ₹" + total.toFixed(2) + " WITH UPI / GPAY";
+    } else {
+        button.textContent = "PAY ₹0 WITH UPI / GPAY";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    updateUPIButtonAmount();
+});
 </script>
 
 </body>
