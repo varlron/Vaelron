@@ -1,0 +1,3226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="VAELRON — Modern clothing and footwear.">
+<title>VAELRON | Official Store</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f7f7f7;
+    color:#111;
+    line-height:1.5;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+img{
+    max-width:100%;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:72px;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    box-shadow:0 2px 12px rgba(0,0,0,.15);
+}
+
+.menu-btn,
+.cart-btn{
+    background:none;
+    border:0;
+    color:white;
+    font-size:27px;
+    padding:8px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:4px;
+}
+
+.cart-btn{
+    position:relative;
+}
+
+.cart-count{
+    position:absolute;
+    top:-2px;
+    right:-2px;
+    background:white;
+    color:#111;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+/* SIDE MENU */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:1400;
+    display:none;
+}
+
+.overlay.show{
+    display:block;
+}
+
+.side-menu{
+    position:fixed;
+    top:0;
+    left:-330px;
+    width:310px;
+    height:100vh;
+    background:#111;
+    color:white;
+    z-index:1500;
+    padding:28px;
+    transition:.3s ease;
+    box-shadow:8px 0 30px rgba(0,0,0,.3);
+    overflow-y:auto;
+}
+
+.side-menu.open{
+    left:0;
+}
+
+.close-menu{
+    background:none;
+    border:0;
+    color:white;
+    font-size:32px;
+    float:right;
+}
+
+.side-menu h2{
+    clear:both;
+    padding-top:25px;
+    font-size:25px;
+    letter-spacing:4px;
+    margin-bottom:30px;
+}
+
+.side-menu a,
+.side-menu button.menu-link{
+    display:block;
+    width:100%;
+    padding:15px 5px;
+    border:0;
+    border-bottom:1px solid #333;
+    background:none;
+    color:white;
+    text-align:left;
+    font-size:16px;
+}
+
+.side-menu a:hover,
+.side-menu button.menu-link:hover{
+    padding-left:12px;
+}
+
+/* HERO */
+
+.hero{
+    min-height:570px;
+    background:
+        linear-gradient(rgba(0,0,0,.48),rgba(0,0,0,.48)),
+        url("https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.hero h1{
+    font-size:clamp(48px,9vw,100px);
+    letter-spacing:10px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    margin-bottom:28px;
+}
+
+.primary-btn{
+    border:0;
+    background:white;
+    color:#111;
+    padding:14px 30px;
+    font-weight:bold;
+    border-radius:3px;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* SECTIONS */
+
+.section{
+    max-width:1250px;
+    margin:auto;
+    padding:70px 20px;
+}
+
+.section-title{
+    text-align:center;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.section-subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:35px;
+}
+
+/* CATEGORIES */
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.category-card{
+    min-height:180px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    background:#222;
+    color:white;
+    display:flex;
+    align-items:flex-end;
+    padding:20px;
+    border-radius:4px;
+}
+
+.category-card img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s;
+    opacity:.7;
+}
+
+.category-card:hover img{
+    transform:scale(1.08);
+}
+
+.category-card h3{
+    position:relative;
+    z-index:2;
+    font-size:20px;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.product-card{
+    background:white;
+    border:1px solid #e4e4e4;
+    overflow:hidden;
+    border-radius:4px;
+}
+
+.product-image{
+    width:100%;
+    height:310px;
+    object-fit:cover;
+    display:block;
+    background:#eee;
+}
+
+.product-info{
+    padding:18px;
+}
+
+.product-category{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:#888;
+    margin-bottom:5px;
+}
+
+.product-name{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.product-description{
+    color:#666;
+    font-size:13px;
+    min-height:42px;
+    margin-bottom:10px;
+}
+
+.product-price{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.size-select{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    background:white;
+    margin-bottom:10px;
+}
+
+.add-btn{
+    width:100%;
+    border:0;
+    background:#111;
+    color:white;
+    padding:12px;
+    font-weight:bold;
+}
+
+.add-btn:hover{
+    background:#333;
+}
+
+/* ABOUT */
+
+.about-box{
+    background:white;
+    padding:40px;
+    border:1px solid #e5e5e5;
+    text-align:center;
+}
+
+.about-box p{
+    max-width:800px;
+    margin:12px auto;
+    color:#555;
+}
+
+/* POLICY */
+
+.policy-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.policy-card{
+    background:white;
+    padding:25px;
+    border:1px solid #e5e5e5;
+}
+
+.policy-card h3{
+    margin-bottom:10px;
+}
+
+/* CONTACT */
+
+.contact-box{
+    background:#111;
+    color:white;
+    padding:40px;
+    text-align:center;
+}
+
+.contact-box p{
+    margin:8px;
+}
+
+/* CART */
+
+.cart-panel{
+    position:fixed;
+    top:0;
+    right:-440px;
+    width:420px;
+    max-width:95vw;
+    height:100vh;
+    background:white;
+    z-index:2000;
+    transition:.3s;
+    box-shadow:-5px 0 25px rgba(0,0,0,.2);
+    display:flex;
+    flex-direction:column;
+}
+
+.cart-panel.open{
+    right:0;
+}
+
+.cart-header{
+    padding:20px;
+    background:#111;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.cart-header button{
+    background:none;
+    border:0;
+    color:white;
+    font-size:28px;
+}
+
+.cart-items{
+    flex:1;
+    overflow-y:auto;
+    padding:15px;
+}
+
+.cart-item{
+    display:flex;
+    gap:12px;
+    border-bottom:1px solid #eee;
+    padding:14px 0;
+}
+
+.cart-item img{
+    width:80px;
+    height:95px;
+    object-fit:cover;
+}
+
+.cart-item-info{
+    flex:1;
+}
+
+.cart-item-info h4{
+    margin-bottom:5px;
+}
+
+.cart-item-info p{
+    font-size:13px;
+    color:#666;
+}
+
+.quantity-controls{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:8px;
+}
+
+.quantity-controls button{
+    width:28px;
+    height:28px;
+    border:1px solid #ccc;
+    background:white;
+}
+
+.remove-btn{
+    background:none;
+    border:0;
+    color:#b00020;
+    font-size:12px;
+    margin-top:6px;
+}
+
+.cart-footer{
+    padding:20px;
+    border-top:1px solid #ddd;
+}
+
+.cart-total{
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.checkout-btn{
+    width:100%;
+    padding:14px;
+    background:#111;
+    color:white;
+    border:0;
+    font-weight:bold;
+}
+
+/* MODALS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:650px;
+    max-width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:30px;
+    border-radius:5px;
+    position:relative;
+}
+
+.modal-box.large{
+    width:1000px;
+}
+
+.modal-close{
+    position:absolute;
+    top:12px;
+    right:15px;
+    background:none;
+    border:0;
+    font-size:30px;
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+/* FORMS */
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:bold;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+.form-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.submit-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    background:#111;
+    color:white;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.payment-methods{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:15px 0;
+}
+
+.payment-option{
+    border:1px solid #ccc;
+    padding:14px;
+}
+
+.payment-option input{
+    margin-right:7px;
+}
+
+.upi-box{
+    background:#f4f4f4;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.upi-box strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.upi-pay-btn{
+    margin-top:10px;
+    padding:11px 18px;
+    border:0;
+    background:#111;
+    color:white;
+}
+
+/* ADMIN */
+
+.admin-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.admin-tab{
+    padding:10px 15px;
+    border:1px solid #ccc;
+    background:white;
+}
+
+.admin-section{
+    display:none;
+}
+
+.admin-section.active{
+    display:block;
+}
+
+.admin-product-row,
+.order-card{
+    border:1px solid #ddd;
+    padding:15px;
+    margin-bottom:12px;
+    background:#fafafa;
+}
+
+.admin-product-row p{
+    color:#777;
+    font-size:13px;
+}
+
+.admin-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.edit-btn,
+.delete-btn{
+    border:0;
+    padding:8px 12px;
+    color:white;
+}
+
+.edit-btn{
+    background:#333;
+}
+
+.delete-btn{
+    background:#b00020;
+}
+
+.status-select{
+    margin-top:10px;
+    padding:8px;
+    width:100%;
+}
+
+.firebase-status{
+    font-size:12px;
+    color:#777;
+    margin-top:10px;
+}
+
+/* FOOTER */
+
+footer{
+    background:#111;
+    color:white;
+    padding:40px 20px;
+    text-align:center;
+}
+
+footer .footer-logo{
+    font-size:25px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-bottom:10px;
+}
+
+footer p{
+    color:#aaa;
+    font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+    .category-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .policy-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+    header{
+        height:62px;
+        padding:0 12px;
+    }
+
+    .logo{
+        font-size:20px;
+        letter-spacing:3px;
+    }
+
+    .hero{
+        min-height:500px;
+    }
+
+    .hero h1{
+        letter-spacing:5px;
+    }
+
+    .section{
+        padding:50px 14px;
+    }
+
+    .category-grid,
+    .product-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .category-card{
+        min-height:140px;
+        padding:13px;
+    }
+
+    .product-image{
+        height:230px;
+    }
+
+    .product-info{
+        padding:12px;
+    }
+
+    .product-name{
+        font-size:15px;
+    }
+
+    .product-description{
+        font-size:12px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .modal-box{
+        padding:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+    <button class="menu-btn" onclick="openMenu()" aria-label="Open menu">☰</button>
+
+    <div class="logo">VAELRON</div>
+
+    <button class="cart-btn" onclick="openCart()" aria-label="Open cart">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+</header>
+
+<!-- SIDE MENU -->
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<nav class="side-menu" id="sideMenu">
+
+    <button class="close-menu" onclick="closeMenu()">×</button>
+
+    <h2>VAELRON</h2>
+
+    <a href="#home" onclick="closeMenu()">Home</a>
+
+    <a href="#products" onclick="closeMenu()">Products</a>
+
+    <a href="#about" onclick="closeMenu()">About Us</a>
+
+    <a href="#policy" onclick="closeMenu()">Policy</a>
+
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+
+    <button class="menu-link" onclick="closeMenu();openAdminLogin()">
+        Admin Panel
+    </button>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <h1>VAELRON</h1>
+
+        <p>
+            Modern essentials. Timeless attitude.
+        </p>
+
+        <button class="primary-btn" onclick="showAllProducts()">
+            SHOP COLLECTION
+        </button>
+
+    </div>
+
+</section>
+
+<!-- CATEGORIES -->
+
+<section class="section" id="categories">
+
+    <h2 class="section-title">SHOP BY CATEGORY</h2>
+
+    <p class="section-subtitle">
+        Find your style
+    </p>
+
+    <div class="category-grid">
+
+        <div class="category-card"
+             onclick="filterProducts('Trousers')">
+            <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=700&q=80">
+            <h3>Trousers</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('Shirts')">
+            <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=700&q=80">
+            <h3>Shirts</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('Shorts')">
+            <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=700&q=80">
+            <h3>Shorts</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('T-Shirts')">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80">
+            <h3>T-Shirts</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('Footwear')">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80">
+            <h3>Footwear</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('Jackets')">
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80">
+            <h3>Jackets</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="filterProducts('Track Pants')">
+            <img src="https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=700&q=80">
+            <h3>Track Pants</h3>
+        </div>
+
+        <div class="category-card"
+             onclick="showAllProducts()">
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=700&q=80">
+            <h3>View All</h3>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PRODUCTS -->
+
+<section class="section" id="products">
+
+    <h2 class="section-title">OUR COLLECTION</h2>
+
+    <p class="section-subtitle" id="productSubtitle">
+        Explore the complete VAELRON collection
+    </p>
+
+    <div class="product-grid" id="productsGrid"></div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section class="section" id="about">
+
+    <h2 class="section-title">ABOUT VAELRON</h2>
+
+    <div class="about-box">
+
+        <p>
+            VAELRON is a modern fashion label focused on clean silhouettes,
+            everyday essentials and contemporary streetwear.
+        </p>
+
+        <p>
+            Our goal is simple — create pieces that look effortless,
+            feel comfortable and fit naturally into your everyday style.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- POLICY -->
+
+<section class="section" id="policy">
+
+    <h2 class="section-title">OUR POLICIES</h2>
+
+    <div class="policy-grid">
+
+        <div class="policy-card">
+            <h3>Shipping</h3>
+            <p>
+                Orders are processed after successful order submission.
+                Delivery time may vary according to location.
+            </p>
+        </div>
+
+        <div class="policy-card">
+            <h3>Returns</h3>
+            <p>
+                Return eligibility depends on product condition and
+                the applicable return policy.
+            </p>
+        </div>
+
+        <div class="policy-card">
+            <h3>Payments</h3>
+            <p>
+                UPI and Cash on Delivery can be offered through the
+                checkout system.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="section" id="contact">
+
+    <div class="contact-box">
+
+        <h2>CONTACT VAELRON</h2>
+
+        <p>For orders and customer support, contact VAELRON.</p>
+
+        <p>We will respond as soon as possible.</p>
+
+    </div>
+
+</section>
+
+<!-- CART -->
+
+<div class="cart-panel" id="cartPanel">
+
+    <div class="cart-header">
+
+        <h2>Your Cart</h2>
+
+        <button onclick="closeCart()">×</button>
+
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-footer">
+
+        <div class="cart-total">
+
+            <span>Total</span>
+
+            <span id="cartTotal">₹0</span>
+
+        </div>
+
+        <button class="checkout-btn" onclick="openCheckout()">
+            PROCEED TO CHECKOUT
+        </button>
+
+    </div>
+
+</div>
+
+<!-- CHECKOUT MODAL -->
+
+<div class="modal" id="checkoutModal">
+
+    <div class="modal-box">
+
+        <button class="modal-close" onclick="closeCheckout()">×</button>
+
+        <h2>Checkout</h2>
+
+        <form id="checkoutForm" onsubmit="submitOrder(event)">
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        id="customerName"
+                        required
+                        placeholder="Your full name">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        required
+                        placeholder="10-digit mobile number">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    id="customerEmail"
+                    required
+                    placeholder="you@example.com">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Delivery Address</label>
+
+                <textarea
+                    id="customerAddress"
+                    required
+                    placeholder="House number, street, area"></textarea>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>City</label>
+
+                    <input
+                        type="text"
+                        id="customerCity"
+                        required
+                        placeholder="City">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Pincode</label>
+
+                    <input
+                        type="text"
+                        id="customerPincode"
+                        required
+                        placeholder="Pincode">
+
+                </div>
+
+            </div>
+
+            <h3>Payment Method</h3>
+
+            <div class="payment-methods">
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="UPI"
+                        checked
+                        onchange="showUPI()">
+
+                    UPI / GPay
+
+                </label>
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="COD"
+                        onchange="hideUPI()">
+
+                    Cash on Delivery
+
+                </label>
+
+            </div>
+
+            <div class="upi-box" id="upiBox">
+
+                <strong>VAELRON UPI ID</strong>
+
+                <span>7995066031@kotak</span>
+
+    <button
+        type="button"
+        class="upi-pay-btn"
+        onclick="payWithUPI()">
+        PAY WITH UPI
+    </button>
+
+</div>
+
+<button type="submit" class="submit-btn">
+    PLACE ORDER
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- ================= ADMIN LOGIN ================= -->
+
+<div class="modal" id="adminLoginModal">
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAdminLogin()">
+            ×
+        </button>
+
+        <h2>VAELRON Admin Login</h2>
+
+        <form onsubmit="adminLogin(event)">
+
+            <div class="form-group">
+
+                <label>Admin Email</label>
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    required
+                    placeholder="Admin email">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    required
+                    placeholder="Password">
+
+            </div>
+
+            <button
+                class="submit-btn"
+                type="submit">
+
+                LOGIN
+
+            </button>
+
+            <p
+                id="adminLoginMessage"
+                style="margin-top:12px;color:#b00020;">
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ADMIN PANEL ================= -->
+
+<div class="modal" id="adminModal">
+
+    <div class="modal-box large">
+
+        <button
+            class="modal-close"
+            onclick="closeAdminPanel()">
+            ×
+        </button>
+
+        <h2>VAELRON Admin Panel</h2>
+
+        <div
+            class="firebase-status"
+            id="firebaseStatus">
+            Connecting to Firebase...
+        </div>
+
+
+        <div class="admin-tabs">
+
+            <button
+                class="admin-tab"
+                onclick="showAdminTab('adminProducts')">
+                Products
+            </button>
+
+            <button
+                class="admin-tab"
+                onclick="showAdminTab('adminOrders')">
+                Orders
+            </button>
+
+            <button
+                class="admin-tab"
+                onclick="adminLogout()">
+                Logout
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN PRODUCTS -->
+
+        <div
+            class="admin-section active"
+            id="adminProducts">
+
+            <h3>Add / Edit Product</h3>
+
+            <form
+                onsubmit="saveProduct(event)"
+                style="margin-top:15px;">
+
+                <input
+                    type="hidden"
+                    id="adminProductId">
+
+                <div class="form-group">
+
+                    <label>Product Name</label>
+
+                    <input
+                        type="text"
+                        id="adminProductName"
+                        required>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>Category</label>
+
+                        <select id="adminProductCategory">
+
+                            <option>Trousers</option>
+                            <option>Shirts</option>
+                            <option>Shorts</option>
+                            <option>T-Shirts</option>
+                            <option>Footwear</option>
+                            <option>Jackets</option>
+                            <option>Track Pants</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Price</label>
+
+                        <input
+                            type="number"
+                            id="adminProductPrice"
+                            required
+                            min="0">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        id="adminProductDescription">
+                    </textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Image URL</label>
+
+                    <input
+                        type="url"
+                        id="adminProductImage"
+                        placeholder="https://...">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Sizes</label>
+
+                    <input
+                        type="text"
+                        id="adminProductSizes"
+                        placeholder="S, M, L, XL">
+
+                </div>
+
+
+                <div class="admin-actions">
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                        style="margin:0;">
+
+                        SAVE PRODUCT
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="admin-tab"
+                        onclick="clearProductForm()">
+
+                        CLEAR
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <hr style="margin:30px 0;">
+
+
+            <h3>Online Products</h3>
+
+            <div
+                id="adminProductsList"
+                style="margin-top:15px;">
+            </div>
+
+        </div>
+
+
+        <!-- ADMIN ORDERS -->
+
+        <div
+            class="admin-section"
+            id="adminOrders">
+
+            <h3>Customer Orders</h3>
+
+            <div
+                id="adminOrdersList"
+                style="margin-top:15px;">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        VAELRON
+    </div>
+
+    <p>
+        Modern essentials. Timeless attitude.
+    </p>
+
+    <p style="margin-top:12px;">
+        © 2026 VAELRON. All rights reserved.
+    </p>
+
+</footer>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+/* =========================================================
+   VAELRON FIREBASE CONFIG
+   ========================================================= */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBg4XWVL7OcLPeQCEaax0fMga7Jn4ffboI",
+
+    authDomain: "vaelron-d7fbd.firebaseapp.com",
+
+    projectId: "vaelron-d7fbd",
+
+    storageBucket: "vaelron-d7fbd.firebasestorage.app",
+
+    messagingSenderId: "194971614107",
+
+    appId: "1:194971614107:web:ce0a2d2bfce3c73d7f3f3e",
+
+    measurementId: "G-G2LV2EV35X"
+
+};
+
+
+let firebaseReady = false;
+
+let db = null;
+
+let auth = null;
+
+
+try {
+
+    firebase.initializeApp(firebaseConfig);
+
+    db = firebase.firestore();
+
+    auth = firebase.auth();
+
+    firebaseReady = true;
+
+    console.log("VAELRON Firebase connected.");
+
+} catch(error) {
+
+    console.error(
+        "Firebase error:",
+        error
+    );
+
+}
+
+
+/* =========================================================
+   DEFAULT PRODUCTS
+   ========================================================= */
+
+const defaultProducts = [
+
+    {
+        id:"trousers-1",
+        name:"Classic Black Trousers",
+        category:"Trousers",
+        price:1499,
+        description:"Clean straight-fit trousers designed for everyday styling.",
+        image:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"trousers-2",
+        name:"Relaxed Beige Trousers",
+        category:"Trousers",
+        price:1699,
+        description:"Relaxed beige trousers with a modern everyday silhouette.",
+        image:"https://images.unsplash.com/photo-1624378441864-6eda7f4c7e1f?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"shirts-1",
+        name:"Classic White Shirt",
+        category:"Shirts",
+        price:1299,
+        description:"Minimal white shirt that works for casual and smart looks.",
+        image:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"shirts-2",
+        name:"Oversized Black Shirt",
+        category:"Shirts",
+        price:1399,
+        description:"Relaxed oversized black shirt with a contemporary fit.",
+        image:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"shorts-1",
+        name:"Everyday Shorts",
+        category:"Shorts",
+        price:999,
+        description:"Comfortable everyday shorts with a clean minimal design.",
+        image:"https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"shorts-2",
+        name:"Utility Cargo Shorts",
+        category:"Shorts",
+        price:1199,
+        description:"Functional cargo shorts with multiple utility pockets.",
+        image:"https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"tee-1",
+        name:"Essential White Tee",
+        category:"T-Shirts",
+        price:799,
+        description:"Premium-looking everyday white T-shirt.",
+        image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"tee-2",
+        name:"Minimal Black Tee",
+        category:"T-Shirts",
+        price:899,
+        description:"Clean black T-shirt with a versatile everyday fit.",
+        image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"footwear-1",
+        name:"Urban Sneakers",
+        category:"Footwear",
+        price:2499,
+        description:"Minimal everyday sneakers made for urban styling.",
+        image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+        sizes:["6","7","8","9","10"]
+    },
+
+    {
+        id:"footwear-2",
+        name:"Classic White Sneakers",
+        category:"Footwear",
+        price:2299,
+        description:"Clean white sneakers for everyday outfits.",
+        image:"https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=800&q=80",
+        sizes:["6","7","8","9","10"]
+    },
+
+    {
+        id:"jacket-1",
+        name:"Classic Leather Jacket",
+        category:"Jackets",
+        price:3499,
+        description:"Timeless black jacket with a premium-inspired appearance.",
+        image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"jacket-2",
+        name:"Street Bomber Jacket",
+        category:"Jackets",
+        price:2999,
+        description:"Modern bomber jacket designed for casual streetwear.",
+        image:"https://images.unsplash.com/photo-1548883354-94bcfe321cbb?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"track-1",
+        name:"Essential Track Pants",
+        category:"Track Pants",
+        price:1299,
+        description:"Comfortable everyday track pants with a relaxed fit.",
+        image:"https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    },
+
+    {
+        id:"track-2",
+        name:"Premium Jogger Track Pants",
+        category:"Track Pants",
+        price:1499,
+        description:"Modern joggers suitable for travel, workouts and casual wear.",
+        image:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80",
+        sizes:["S","M","L","XL"]
+    }
+
+];
+
+
+let products = [...defaultProducts];
+
+let cart = [];
+
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+function openMenu(){
+
+    const menu =
+        document.getElementById("sideMenu");
+
+    const overlay =
+        document.getElementById("overlay");
+
+    if(menu)
+        menu.classList.add("open");
+
+    if(overlay)
+        overlay.classList.add("show");
+
+}
+
+
+function closeMenu(){
+
+    const menu =
+        document.getElementById("sideMenu");
+
+    const overlay =
+        document.getElementById("overlay");
+
+    if(menu)
+        menu.classList.remove("open");
+
+    if(overlay)
+        overlay.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   PRODUCT DISPLAY
+   ========================================================= */
+
+function displayProducts(list){
+
+    const grid =
+        document.getElementById("productsGrid");
+
+    if(!grid)
+        return;
+
+    grid.innerHTML = "";
+
+
+    if(!list.length){
+
+        grid.innerHTML =
+        "<p style='grid-column:1/-1;text-align:center;'>No products available.</p>";
+
+        return;
+
+    }
+
+
+    list.forEach(product => {
+
+        const sizes =
+            product.sizes &&
+            product.sizes.length
+            ? product.sizes
+            : ["S","M","L","XL"];
+
+
+        grid.innerHTML += `
+
+        <div class="product-card">
+
+            <img
+                class="product-image"
+                src="${escapeHTML(product.image || "")}"
+                alt="${escapeHTML(product.name)}"
+                onerror="this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80'"
+            >
+
+            <div class="product-info">
+
+                <div class="product-category">
+                    ${escapeHTML(product.category)}
+                </div>
+
+                <div class="product-name">
+                    ${escapeHTML(product.name)}
+                </div>
+
+                <div class="product-description">
+                    ${escapeHTML(product.description || "")}
+                </div>
+
+                <div class="product-price">
+                    ₹${Number(product.price).toLocaleString("en-IN")}
+                </div>
+
+                <select
+                    class="size-select"
+                    id="size-${escapeHTML(product.id)}">
+
+                    ${sizes.map(size => `
+
+                        <option value="${escapeHTML(size)}">
+                            ${escapeHTML(size)}
+                        </option>
+
+                    `).join("")}
+
+                </select>
+
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart('${escapeJS(product.id)}')">
+
+                    ADD TO CART
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+   ========================================================= */
+
+function filterProducts(category){
+
+    const filtered =
+        products.filter(
+            product =>
+            product.category === category
+        );
+
+
+    displayProducts(filtered);
+
+
+    const subtitle =
+        document.getElementById(
+            "productSubtitle"
+        );
+
+
+    if(subtitle){
+
+        subtitle.textContent =
+            category + " Collection";
+
+    }
+
+
+    const section =
+        document.getElementById("products");
+
+
+    if(section){
+
+        section.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+
+function showAllProducts(){
+
+    displayProducts(products);
+
+
+    const subtitle =
+        document.getElementById(
+            "productSubtitle"
+        );
+
+
+    if(subtitle){
+
+        subtitle.textContent =
+            "Explore the complete VAELRON collection";
+
+    }
+
+
+    const section =
+        document.getElementById("products");
+
+
+    if(section){
+
+        section.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+function addToCart(productId){
+
+    const product =
+        products.find(
+            p => p.id === productId
+        );
+
+
+    if(!product)
+        return;
+
+
+    const sizeElement =
+        document.getElementById(
+            "size-" + productId
+        );
+
+
+    const size =
+        sizeElement
+        ? sizeElement.value
+        : "M";
+
+
+    const existing =
+        cart.find(
+            item =>
+            item.productId === productId &&
+            item.size === size
+        );
+
+
+    if(existing){
+
+        existing.quantity++;
+
+    } else {
+
+        cart.push({
+
+            productId:productId,
+
+            name:product.name,
+
+            price:Number(product.price),
+
+            image:product.image,
+
+            size:size,
+
+            quantity:1
+
+        });
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+    openCart();
+
+}
+
+
+function removeFromCart(index){
+
+    cart.splice(index,1);
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+function changeQuantity(index,change){
+
+    if(!cart[index])
+        return;
+
+
+    cart[index].quantity += change;
+
+
+    if(cart[index].quantity <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+function getCartTotal(){
+
+    return cart.reduce(
+
+        (total,item) =>
+            total +
+            item.price *
+            item.quantity,
+
+        0
+
+    );
+
+}
+
+
+function updateCart(){
+
+    const container =
+        document.getElementById(
+            "cartItems"
+        );
+
+
+    const count =
+        cart.reduce(
+
+            (total,item) =>
+                total + item.quantity,
+
+            0
+
+        );
+
+
+    const countElement =
+        document.getElementById(
+            "cartCount"
+        );
+
+
+    if(countElement){
+
+        countElement.textContent =
+            count;
+
+    }
+
+
+    const totalElement =
+        document.getElementById(
+            "cartTotal"
+        );
+
+
+    if(totalElement){
+
+        totalElement.textContent =
+            "₹" +
+            getCartTotal()
+            .toLocaleString("en-IN");
+
+    }
+
+
+    if(!container)
+        return;
+
+
+    if(!cart.length){
+
+        container.innerHTML = `
+
+            <p style="
+                color:#777;
+                text-align:center;
+                padding:40px 0;
+            ">
+
+                Your cart is empty.
+
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        cart.map(
+
+            (item,index) => `
+
+            <div class="cart-item">
+
+                <img
+                    src="${escapeHTML(item.image)}"
+                    alt="${escapeHTML(item.name)}"
+                >
+
+                <div class="cart-item-info">
+
+                    <h4>
+                        ${escapeHTML(item.name)}
+                    </h4>
+
+                    <p>
+                        Size:
+                        ${escapeHTML(item.size)}
+                    </p>
+
+                    <p>
+                        ₹${item.price.toLocaleString("en-IN")}
+                    </p>
+
+
+                    <div class="quantity-controls">
+
+                        <button
+                            onclick="changeQuantity(${index},-1)">
+                            −
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button
+                            onclick="changeQuantity(${index},1)">
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="remove-btn"
+                                                onclick="removeFromCart(${index})">
+
+                        Remove
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+
+        ).join("");
+
+}
+
+
+/* =========================================================
+   SAVE / LOAD CART
+   ========================================================= */
+
+function saveCart(){
+
+    localStorage.setItem(
+        "vaelron_cart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+function loadCart(){
+
+    try{
+
+        const saved =
+            localStorage.getItem("vaelron_cart");
+
+        if(saved){
+
+            cart = JSON.parse(saved);
+
+        }
+
+    }catch(error){
+
+        console.error("Cart loading error:", error);
+
+        cart = [];
+
+    }
+
+}
+
+
+function openCart(){
+
+    const panel =
+        document.getElementById("cartPanel");
+
+    if(panel){
+
+        panel.classList.add("open");
+
+    }
+
+}
+
+
+function closeCart(){
+
+    const panel =
+        document.getElementById("cartPanel");
+
+    if(panel){
+
+        panel.classList.remove("open");
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+function openCheckout(){
+
+    if(!cart.length){
+
+        alert("Your cart is empty.");
+
+        return;
+
+    }
+
+    closeCart();
+
+    const modal =
+        document.getElementById("checkoutModal");
+
+    if(modal){
+
+        modal.classList.add("show");
+
+    }
+
+}
+
+
+function closeCheckout(){
+
+    const modal =
+        document.getElementById("checkoutModal");
+
+    if(modal){
+
+        modal.classList.remove("show");
+
+    }
+
+}
+
+
+function showUPI(){
+
+    const box =
+        document.getElementById("upiBox");
+
+    if(box){
+
+        box.style.display = "block";
+
+    }
+
+}
+
+
+function hideUPI(){
+
+    const box =
+        document.getElementById("upiBox");
+
+    if(box){
+
+        box.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   UPI PAYMENT
+   ========================================================= */
+
+function payWithUPI(){
+
+    const amount =
+        getCartTotal().toFixed(2);
+
+    const upiURL =
+        "upi://pay" +
+        "?pa=7995066031@kotak" +
+        "&pn=VAELRON" +
+        "&am=" + amount +
+        "&cu=INR";
+
+    window.location.href = upiURL;
+
+}
+
+
+/* =========================================================
+   CUSTOMER ORDER
+   ========================================================= */
+
+async function submitOrder(event){
+
+    event.preventDefault();
+
+    if(!cart.length){
+
+        alert("Your cart is empty.");
+
+        return;
+
+    }
+
+
+    const paymentElement =
+        document.querySelector(
+            'input[name="paymentMethod"]:checked'
+        );
+
+
+    const paymentMethod =
+        paymentElement
+        ? paymentElement.value
+        : "UPI";
+
+
+    const order = {
+
+        customer: {
+
+            name:
+                document
+                .getElementById("customerName")
+                .value
+                .trim(),
+
+            phone:
+                document
+                .getElementById("customerPhone")
+                .value
+                .trim(),
+
+            email:
+                document
+                .getElementById("customerEmail")
+                .value
+                .trim(),
+
+            address:
+                document
+                .getElementById("customerAddress")
+                .value
+                .trim(),
+
+            city:
+                document
+                .getElementById("customerCity")
+                .value
+                .trim(),
+
+            pincode:
+                document
+                .getElementById("customerPincode")
+                .value
+                .trim()
+
+        },
+
+
+        items:
+            cart.map(item => ({
+
+                productId: item.productId,
+
+                name: item.name,
+
+                price: item.price,
+
+                size: item.size,
+
+                quantity: item.quantity
+
+            })),
+
+
+        total:
+            getCartTotal(),
+
+
+        paymentMethod:
+            paymentMethod,
+
+
+        paymentStatus:
+            paymentMethod === "COD"
+            ? "Pending"
+            : "UPI payment initiated / awaiting verification",
+
+
+        status:
+            "Order Received",
+
+
+        createdAt:
+            firebaseReady
+            ? firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+            : new Date().toISOString()
+
+    };
+
+
+    try{
+
+        if(!firebaseReady || !db){
+
+            alert(
+                "Firebase is not connected. " +
+                "Please check your Firebase setup."
+            );
+
+            return;
+
+        }
+
+
+        const docRef =
+            await db
+            .collection("orders")
+            .add(order);
+
+
+        alert(
+            "Order placed successfully!\n\n" +
+            "Order ID: " +
+            docRef.id
+        );
+
+
+        cart = [];
+
+        saveCart();
+
+        updateCart();
+
+
+        const form =
+            document.getElementById(
+                "checkoutForm"
+            );
+
+
+        if(form){
+
+            form.reset();
+
+        }
+
+
+        showUPI();
+
+        closeCheckout();
+
+
+    }catch(error){
+
+        console.error(
+            "Order error:",
+            error
+        );
+
+
+        alert(
+            "Unable to place order.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+   ========================================================= */
+
+function openAdminLogin(){
+
+    const modal =
+        document.getElementById(
+            "adminLoginModal"
+        );
+
+    if(modal){
+
+        modal.classList.add("show");
+
+    }
+
+}
+
+
+function closeAdminLogin(){
+
+    const modal =
+        document.getElementById(
+            "adminLoginModal"
+        );
+
+    if(modal){
+
+        modal.classList.remove("show");
+
+    }
+
+}
+
+
+async function adminLogin(event){
+
+    event.preventDefault();
+
+
+    const email =
+        document
+        .getElementById("adminEmail")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("adminPassword")
+        .value;
+
+
+    const message =
+        document.getElementById(
+            "adminLoginMessage"
+        );
+
+
+    if(!firebaseReady || !auth){
+
+        message.textContent =
+            "Firebase is not connected.";
+
+        return;
+
+    }
+
+
+    try{
+
+        await auth.signInWithEmailAndPassword(
+            email,
+            password
+        );
+
+
+        message.textContent =
+            "Login successful.";
+
+
+        closeAdminLogin();
+
+        openAdminPanel();
+
+
+    }catch(error){
+
+        console.error(
+            "Admin login error:",
+            error
+        );
+
+
+        message.textContent =
+            error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN PANEL
+   ========================================================= */
+
+function openAdminPanel(){
+
+    if(!auth || !auth.currentUser){
+
+        openAdminLogin();
+
+        return;
+
+    }
+
+
+    const modal =
+        document.getElementById(
+            "adminModal"
+        );
+
+
+    if(modal){
+
+        modal.classList.add("show");
+
+    }
+
+
+    loadAdminProducts();
+
+    loadAdminOrders();
+
+}
+
+
+function closeAdminPanel(){
+
+    const modal =
+        document.getElementById(
+            "adminModal"
+        );
+
+
+    if(modal){
+
+        modal.classList.remove("show");
+
+    }
+
+}
+
+
+async function adminLogout(){
+
+    try{
+
+        if(auth){
+
+            await auth.signOut();
+
+        }
+
+        closeAdminPanel();
+
+        alert("Admin logged out.");
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN TABS
+   ========================================================= */
+
+function showAdminTab(tabId){
+
+    const sections =
+        document.querySelectorAll(
+            ".admin-section"
+        );
+
+
+    sections.forEach(section => {
+
+        section.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    const selected =
+        document.getElementById(tabId);
+
+
+    if(selected){
+
+        selected.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR PRODUCT FORM
+   ========================================================= */
+
+function clearProductForm(){
+
+    document.getElementById(
+        "adminProductId"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminProductName"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminProductCategory"
+    ).value = "Trousers";
+
+
+    document.getElementById(
+        "adminProductPrice"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminProductDescription"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminProductImage"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminProductSizes"
+    ).value = "";
+
+}
+
+
+/* =========================================================
+   SAVE PRODUCT
+   ========================================================= */
+
+async function saveProduct(event){
+
+    event.preventDefault();
+
+
+    if(!auth || !auth.currentUser){
+
+        alert(
+            "Please login as admin."
+        );
+
+        return;
+
+    }
+
+
+    const id =
+        document
+        .getElementById("adminProductId")
+        .value
+        .trim();
+
+
+    const product = {
+
+        name:
+            document
+            .getElementById("adminProductName")
+            .value
+            .trim(),
+
+        category:
+            document
+            .getElementById("adminProductCategory")
+            .value,
+
+        price:
+            Number(
+                document
+                .getElementById("adminProductPrice")
+                .value
+            ),
+
+        description:
+            document
+            .getElementById("adminProductDescription")
+            .value
+            .trim(),
+
+        image:
+            document
+            .getElementById("adminProductImage")
+            .value
+            .trim(),
+
+        sizes:
+            document
+            .getElementById("adminProductSizes")
+            .value
+            .split(",")
+            .map(size => size.trim())
+            .filter(Boolean)
+
+    };
+
+
+    try{
+
+        if(id){
+
+            await db
+                .collection("products")
+                .doc(id)
+                .set(
+                    product,
+                    {merge:true}
+                );
+
+        }else{
+
+            await db
+                .collection("products")
+                .add(product);
+
+        }
+
+
+        alert(
+            "Product saved successfully."
+        );
+
+
+        clearProductForm();
+
+        await loadFirebaseProducts();
+
+        await loadAdminProducts();
+
+
+    }catch(error){
+
+        console.error(
+            "Save product error:",
+            error
+        );
+
+
+        alert(
+            "Could not save product:\n" +
+            error.message
+        );
+
+    }
+
+}
+  async function loadAdminProducts(){
+  const container=document.getElementById("adminProductsList");
+
+  if(!auth.currentUser){
+    container.innerHTML="<p>Please login.</p>";
+    return;
+  }
+
+  try{
+    const snapshot=await db.collection("products").get();
+
+    if(snapshot.empty){
+      container.innerHTML="<p>No online products yet.</p>";
+      return;
+    }
+
+    container.innerHTML="";
+
+    snapshot.forEach(doc=>{
+      const p=doc.data();
+
+      container.innerHTML+=`
+        <div class="admin-product-row">
+          <strong>${escapeHTML(p.name||"")}</strong>
+
+          <p>
+            ${escapeHTML(p.category||"")}
+            · ₹${Number(p.price||0).toLocaleString("en-IN")}
+          </p>
+
+          <div class="admin-actions">
+            <button
+              class="edit-btn"
+              onclick="editProduct('${escapeJS(doc.id)}')">
+              Edit
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="deleteProduct('${escapeJS(doc.id)}')">
+              Delete
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+  }catch(error){
+    container.innerHTML=
+      "<p>"+escapeHTML(error.message)+"</p>";
+  }
+}
+
+
+async function editProduct(id){
+  try{
+    const doc=await db.collection("products").doc(id).get();
+
+    if(!doc.exists){
+      alert("Product not found.");
+      return;
+    }
+
+    const p=doc.data();
+
+    document.getElementById("adminProductId").value=id;
+    document.getElementById("adminProductName").value=p.name||"";
+    document.getElementById("adminProductCategory").value=p.category||"Trousers";
+    document.getElementById("adminProductPrice").value=p.price||"";
+    document.getElementById("adminProductDescription").value=p.description||"";
+    document.getElementById("adminProductImage").value=p.image||"";
+
+    document.getElementById("adminProductSizes").value=
+      Array.isArray(p.sizes)
+      ? p.sizes.join(", ")
+      : "";
+
+    window.scrollTo({
+      top:document.getElementById("adminPanel").offsetTop,
+      behavior:"smooth"
+    });
+
+  }catch(error){
+    alert(error.message);
+  }
+}
+
+
+async function deleteProduct(id){
+  if(!confirm("Delete this product?")){
+    return;
+  }
+
+  try{
+    await db.collection("products").doc(id).delete();
+
+    alert("Product deleted.");
+
+    await loadFirebaseProducts();
+    await loadAdminProducts();
+
+  }catch(error){
+    alert(error.message);
+  }
+}
+
+
+async function loadAdminOrders(){
+  const container=document.getElementById("adminOrdersList");
+
+  if(!auth.currentUser){
+    container.innerHTML="<p>Please login.</p>";
+    return;
+  }
+
+  try{
+    const snapshot=
+      await db.collection("orders")
+      .orderBy("createdAt","desc")
+      .get();
+
+    if(snapshot.empty){
+      container.innerHTML="<p>No orders received yet.</p>";
+      return;
+    }
+
+    container.innerHTML="";
+
+    snapshot.forEach(doc=>{
+      const order=doc.data();
+
+      const customer=order.customer||{};
+      const items=order.items||[];
+
+      container.innerHTML+=`
+        <div class="order-card">
+
+          <strong>
+            Order #${escapeHTML(doc.id)}
+          </strong>
+
+          <p style="margin-top:10px;">
+            <strong>Name:</strong>
+            ${escapeHTML(customer.name||"")}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHTML(customer.phone||"")}
+          </p>
+
+          <p>
+            <strong>Address:</strong>
+            ${escapeHTML(customer.address||"")},
+            ${escapeHTML(customer.city||"")}
+            -
+            ${escapeHTML(customer.pincode||"")}
+          </p>
+
+          <p style="margin-top:10px;">
+            <strong>Items:</strong>
+          </p>
+
+          <ul style="margin:5px 0 10px 20px;">
+            ${
+              items.map(item=>`
+                <li>
+                  ${escapeHTML(item.name||"")}
+                  —
+                  Size ${escapeHTML(item.size||"")}
+                  × ${Number(item.quantity||0)}
+                </li>
+              `).join("")
+            }
+          </ul>
+
+          <p>
+            <strong>Total:</strong>
+            ₹${Number(order.total||0).toLocaleString("en-IN")}
+          </p>
+
+          <p>
+            <strong>Payment:</strong>
+            ${escapeHTML(order.paymentMethod||"")}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+          </p>
+
+          <select
+            class="status-select"
+            onchange="updateOrderStatus('${escapeJS(doc.id)}',this.value)"
+          >
+
+            ${
+              [
+                "Order Received",
+                "Confirmed",
+                "Packed",
+                "Shipped",
+                "Delivered",
+                "Cancelled"
+              ].map(status=>`
+                <option
+                  value="${escapeHTML(status)}"
+                  ${order.status===status?"selected":""}
+                >
+                  ${escapeHTML(status)}
+                </option>
+              `).join("")
+            }
+
+          </select>
+
+        </div>
+      `;
+    });
+
+  }catch(error){
+
+    container.innerHTML=
+      "<p>"+escapeHTML(error.message)+"</p>";
+
+  }
+}
+
+
+async function updateOrderStatus(orderId,status){
+
+  try{
+
+    await db.collection("orders")
+      .doc(orderId)
+      .update({
+        status:status
+      });
+
+    alert("Order status updated.");
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+}
+
+
+async function loadFirebaseProducts(){
+
+  if(!firebaseReady || !db){
+
+    displayProducts(products);
+    return;
+  }
+
+  try{
+
+    const snapshot=
+      await db.collection("products").get();
+
+    if(snapshot.empty){
+
+      displayProducts(products);
+      return;
+    }
+
+    products=snapshot.docs.map(doc=>({
+
+      id:doc.id,
+
+      ...doc.data()
+
+    }));
+
+    displayProducts(products);
+
+  }catch(error){
+
+    console.error(
+      "Could not load products:",
+      error
+    );
+
+    displayProducts(products);
+
+  }
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJS(value){
+
+  return String(value ?? "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,'\\"')
+    .replace(/\n/g,"\\n")
+    .replace(/\r/g,"\\r");
+
+}
+
+
+/* Firebase login state */
+
+if(firebaseReady && auth){
+
+  auth.onAuthStateChanged(user=>{
+
+    const status=
+      document.getElementById("firebaseStatus");
+
+    if(user){
+
+      status.textContent=
+        "Logged in as " + user.email;
+
+    }else{
+
+      status.textContent=
+        "Firebase connected.";
+
+    }
+
+  });
+
+}
+
+
+/* START WEBSITE */
+
+loadCart();
+
+updateCart();
+
+displayProducts(products);
+
+loadFirebaseProducts();
+
+</script>
+
+</body>
+</html>
+     
+                                        
