@@ -3407,33 +3407,31 @@ async function updateOrderStatus(orderId,status){
   }
 }
 
+products = snapshot.docs.map(doc => {
 
-async function loadFirebaseProducts(){
+    const d = doc.data();
 
-  if(!firebaseReady || !db){
+    return {
+        id: doc.id,
 
-    displayProducts(products);
-    return;
-  }
+        name: d.name ?? d.Name ?? "",
 
-  try{
+        category: d.category ?? d.Category ?? "",
 
-    const snapshot=
-      await db.collection("products").get();
+        price: Number(d.price ?? d.Price ?? 0),
 
-    if(snapshot.empty){
+        description: d.description ?? d.Description ?? "",
 
-      displayProducts(products);
-      return;
-    }
+        image: d.image ?? d.Image ?? "",
 
-    products=snapshot.docs.map(doc=>({
+        sizes: d.sizes ?? d.Sizes ?? ["S","M","L","XL"],
 
-      id:doc.id,
+        colour: d.colour ?? d.Colour ?? d.color ?? d.Color ?? "",
 
-      ...doc.data()
+        colors: d.colors ?? d.Colors ?? d.colours ?? d.Colours ?? []
+    };
 
-    }));
+});
 
     displayProducts(products);
 
