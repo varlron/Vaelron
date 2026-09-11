@@ -2849,7 +2849,121 @@ function loadCart(){
     }
 
 }
+function openAccount(){
 
+    const user =
+        typeof firebase !== "undefined" &&
+        firebase.auth
+            ? firebase.auth().currentUser
+            : null;
+
+    if(user){
+
+        alert(
+            "Welcome to VAELRON!\n\n" +
+            "Signed in as:\n" +
+            (user.email || "VAELRON Customer")
+        );
+
+    }else{
+
+        alert(
+            "VAELRON Account\n\n" +
+            "You are not signed in yet."
+        );
+
+    }
+
+}
+
+
+function openWishlist(){
+
+    let wishlist = [];
+
+    try{
+
+        wishlist =
+            JSON.parse(
+                localStorage.getItem(
+                    "vaelron_wishlist"
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        wishlist = [];
+
+    }
+
+    if(wishlist.length === 0){
+
+        alert(
+            "♡ Your VAELRON Wishlist is empty."
+        );
+
+        return;
+
+    }
+
+    let message =
+        "♡ VAELRON WISHLIST\n\n";
+
+    wishlist.forEach(function(item, index){
+
+        message +=
+            (index + 1) +
+            ". " +
+            (item.name || "Product");
+
+        if(item.price){
+
+            message +=
+                " — ₹" + item.price;
+
+        }
+
+        message += "\n";
+
+    });
+
+    alert(message);
+
+}
+
+
+function updateWishlistCount(){
+
+    let wishlist = [];
+
+    try{
+
+        wishlist =
+            JSON.parse(
+                localStorage.getItem(
+                    "vaelron_wishlist"
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        wishlist = [];
+
+    }
+
+    const count =
+        document.getElementById(
+            "wishlistCount"
+        );
+
+    if(count){
+
+        count.textContent =
+            wishlist.length;
+
+    }
+
+}
 
 function openCart(){
 
