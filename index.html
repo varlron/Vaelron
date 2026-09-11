@@ -3548,6 +3548,260 @@ function updateUPIButtonAmount() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    /* =========================================================
+   VAELRON SEARCH SYSTEM
+   ========================================================= */
+
+function handleSearch(){
+
+    const input = document.getElementById("productSearch");
+    const box = document.getElementById("searchSuggestions");
+    const category =
+        document.getElementById("searchCategory")?.value || "all";
+
+    if(!input || !box) return;
+
+    const query = input.value.trim().toLowerCase();
+
+    if(!query){
+
+        box.innerHTML = "";
+        box.style.display = "none";
+
+        return;
+    }
+
+    const matches = products.filter(product => {
+
+        const name =
+            String(product.name || "").toLowerCase();
+
+        const productCategory =
+            String(product.category || "").toLowerCase();
+
+        const description =
+            String(product.description || "").toLowerCase();
+
+        const matchesText =
+            name.includes(query) ||
+            productCategory.includes(query) ||
+            description.includes(query);
+
+        const matchesCategory =
+            category === "all" ||
+            productCategory === category.toLowerCase();
+
+        return matchesText && matchesCategory;
+
+    }).slice(0,6);
+
+
+    if(!matches.length){
+
+        box.innerHTML = `
+            <div class="search-suggestion">
+                No products found
+            </div>
+        `;
+
+        box.style.display = "block";
+
+        return;
+    }
+
+
+    box.innerHTML = matches.map(product => {
+
+        const image =
+            product.image ||
+            "https://via.placeholder.com/300x400?text=VAELRON";
+
+        return `
+            <div
+                class="search-suggestion"
+                onclick="selectSearchProduct('${escapeJS(product.id)}')">
+
+                <img
+                    src="${escapeHTML(image)}"
+                    alt="${escapeHTML(product.name)}">
+
+                <div class="search-suggestion-info">
+
+                    <div class="search-suggestion-name">
+                        ${escapeHTML(product.name)}
+                    </div>
+
+                    <div class="search-suggestion-price">
+                        ₹${Number(product.price || 0).toLocaleString("en-IN")}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+
+    box.style.display = "block";
+}
+
+
+/* SELECT SEARCH RESULT */
+
+function selectSearchProduct(productId){
+
+    const box =
+        document.getElementById("searchSuggestions");
+
+    const input =
+        document.getElementById("productSearch");
+
+    if(box){
+        box.style.display = "none";
+    }
+
+    if(input){
+        input.value = "";
+    }
+
+    if(typeof openProductDetail === "function"){
+
+        openProductDetail(productId);
+
+    }else{
+
+        const product =
+            products.find(
+                item => String(item.id) === String(productId)
+            );
+
+        if(product && typeof displayProducts === "function"){
+
+            displayProducts([product]);
+
+            document
+                .getElementById("products")
+                ?.scrollIntoView({
+                    behavior:"smooth"
+                });
+
+        }
+
+    }
+
+}
+
+
+/* SEARCH BUTTON / ENTER */
+
+function performSearch(){
+
+    const input =
+        document.getElementById("productSearch");
+
+    const category =
+        document.getElementById("searchCategory")?.value || "all";
+
+    const query =
+        input?.value.trim().toLowerCase() || "";
+
+    const box =
+        document.getElementById("searchSuggestions");
+
+    if(box){
+        box.style.display = "none";
+    }
+
+    if(!query){
+
+        if(typeof displayProducts === "function"){
+            displayProducts(products);
+        }
+
+        return;
+    }
+
+
+    const filtered =
+        products.filter(product => {
+
+            const name =
+                String(product.name || "").toLowerCase();
+
+            const productCategory =
+                String(product.category || "").toLowerCase();
+
+            const description =
+                String(product.description || "").toLowerCase();
+
+            const matchesText =
+                name.includes(query) ||
+                productCategory.includes(query) ||
+                description.includes(query);
+
+            const matchesCategory =
+                category === "all" ||
+                productCategory === category.toLowerCase();
+
+            return matchesText && matchesCategory;
+
+        });
+
+
+    if(typeof displayProducts === "function"){
+
+        displayProducts(filtered);
+
+    }
+
+
+    document
+        .getElementById("products")
+        ?.scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* CLOSE SEARCH SUGGESTIONS WHEN CLICKING OUTSIDE */
+
+document.addEventListener("click", function(event){
+
+    const search =
+        document.querySelector(".search-container");
+
+    const box =
+        document.getElementById("searchSuggestions");
+
+    if(
+        search &&
+        box &&
+        !search.contains(event.target)
+    ){
+
+        box.style.display = "none";
+
+    }
+
+});
+
+
+/* ESCAPE KEY */
+
+document.addEventListener("keydown", function(event){
+
+    if(event.key !== "Escape") return;
+
+    const box =
+        document.getElementById("searchSuggestions");
+
+    if(box){
+        box.style.display = "none";
+    }
+
+});
     updateUPIButtonAmount();
 });
 </script>
