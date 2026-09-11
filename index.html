@@ -3553,6 +3553,510 @@ document.addEventListener("DOMContentLoaded", function () {
     updateUPIButtonAmount();
 });
 </script>
+    <!-- VAELRON PRODUCT DETAIL PAGE -->
+
+<style>
+.product-detail-page{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#fff;
+    overflow-y:auto;
+    display:none;
+}
+
+.product-detail-page.active{
+    display:block;
+}
+
+.product-detail-top{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+    padding:15px 25px;
+}
+
+.product-detail-back{
+    border:0;
+    background:none;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.product-detail-container{
+    max-width:1250px;
+    margin:auto;
+    padding:35px 25px 60px;
+    display:grid;
+    grid-template-columns:55% 45%;
+    gap:45px;
+}
+
+.product-detail-image-box{
+    width:100%;
+    min-height:550px;
+    background:#f7f7f7;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.product-detail-image{
+    width:100%;
+    max-height:650px;
+    object-fit:contain;
+}
+
+.product-detail-info{
+    padding:10px;
+}
+
+.detail-category{
+    font-size:13px;
+    color:#777;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:10px;
+}
+
+.detail-name{
+    font-size:32px;
+    margin:0 0 15px;
+}
+
+.detail-rating{
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.detail-price{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.detail-tax{
+    color:#666;
+    font-size:13px;
+    margin:5px 0 25px;
+}
+
+.detail-description{
+    font-size:16px;
+    line-height:1.7;
+    color:#444;
+    margin-bottom:25px;
+}
+
+.detail-section-title{
+    font-weight:bold;
+    margin:20px 0 10px;
+}
+
+.detail-sizes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.detail-size{
+    padding:12px 18px;
+    background:#fff;
+    border:1px solid #222;
+    cursor:pointer;
+}
+
+.detail-size.selected{
+    background:#111;
+    color:#fff;
+}
+
+.detail-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:30px;
+}
+
+.detail-action-btn{
+    padding:15px 25px;
+    border:1px solid #111;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.detail-cart-btn{
+    background:#111;
+    color:#fff;
+}
+
+.detail-buy-btn,
+.detail-wishlist-btn{
+    background:#fff;
+}
+
+.detail-specs{
+    margin-top:35px;
+    border-top:1px solid #ddd;
+}
+
+.detail-spec-row{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+    font-size:14px;
+}
+
+@media(max-width:800px){
+    .product-detail-container{
+        grid-template-columns:1fr;
+        padding:20px 15px 50px;
+    }
+
+    .product-detail-image-box{
+        min-height:350px;
+    }
+
+    .detail-name{
+        font-size:25px;
+    }
+}
+</style>
+
+
+<div class="product-detail-page" id="productDetailPage">
+
+    <div class="product-detail-top">
+        <button class="product-detail-back"
+                onclick="closeProductDetail()">
+            ← Back to VAELRON
+        </button>
+    </div>
+
+    <div class="product-detail-container">
+
+        <div class="product-detail-image-box">
+            <img
+                id="detailProductImage"
+                class="product-detail-image"
+                src=""
+                alt="VAELRON Product"
+                onerror="this.src='https://via.placeholder.com/700x700?text=VAELRON';"
+            >
+        </div>
+
+        <div class="product-detail-info">
+
+            <div class="detail-category"
+                 id="detailProductCategory">
+                VAELRON
+            </div>
+
+            <h1 class="detail-name"
+                id="detailProductName">
+                Product Name
+            </h1>
+
+            <div class="detail-rating">
+                ★★★★★ VAELRON quality collection
+            </div>
+
+            <div class="detail-price"
+                 id="detailProductPrice">
+                ₹0
+            </div>
+
+            <div class="detail-tax">
+                Inclusive of applicable taxes
+            </div>
+
+            <div class="detail-description"
+                 id="detailProductDescription">
+                Product description
+            </div>
+
+            <div class="detail-section-title">
+                Select Size
+            </div>
+
+            <div class="detail-sizes"
+                 id="detailProductSizes">
+            </div>
+
+            <div class="detail-actions">
+
+                <button
+                    class="detail-action-btn detail-cart-btn"
+                    onclick="detailAddToCart()">
+                    ADD TO CART
+                </button>
+
+                <button
+                    class="detail-action-btn detail-buy-btn"
+                    onclick="detailBuyNow()">
+                    BUY NOW
+                </button>
+
+                <button
+                    class="detail-action-btn detail-wishlist-btn"
+                    onclick="detailWishlist()">
+                    ♡ WISHLIST
+                </button>
+
+            </div>
+
+            <div class="detail-specs">
+
+                <div class="detail-spec-row">
+                    <span>Category</span>
+                    <strong id="detailSpecCategory">—</strong>
+                </div>
+
+                <div class="detail-spec-row">
+                    <span>Available Sizes</span>
+                    <strong id="detailSpecSizes">—</strong>
+                </div>
+
+                <div class="detail-spec-row">
+                    <span>Price</span>
+                    <strong id="detailSpecPrice">—</strong>
+                </div>
+
+                <div class="detail-spec-row">
+                    <span>Brand</span>
+                    <strong>VAELRON</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+let currentDetailProduct = null;
+let currentDetailSize = null;
+
+function openProductDetail(productId){
+
+    const product = products.find(
+        p => String(p.id) === String(productId)
+    );
+
+    if(!product){
+        alert("Product not found.");
+        return;
+    }
+
+    currentDetailProduct = product;
+
+    const image =
+        product.image ||
+        product.Image ||
+        "https://via.placeholder.com/700x700?text=VAELRON";
+
+    const category =
+        product.category ||
+        product.Category ||
+        "VAELRON";
+
+    const name =
+        product.name ||
+        product.Name ||
+        "VAELRON Product";
+
+    const description =
+        product.description ||
+        product.Description ||
+        "Premium VAELRON men's clothing.";
+
+    const price =
+        Number(product.price || product.Price || 0);
+
+    let sizes =
+        product.sizes ||
+        product.Sizes ||
+        ["S","M","L","XL"];
+
+    if(typeof sizes === "string"){
+        sizes = sizes
+            .split(",")
+            .map(s => s.trim())
+            .filter(Boolean);
+    }
+
+    if(!Array.isArray(sizes) || sizes.length === 0){
+        sizes = ["S","M","L","XL"];
+    }
+
+    currentDetailSize = sizes[0];
+
+    document.getElementById("detailProductImage").src = image;
+
+    document.getElementById("detailProductCategory").textContent =
+        category;
+
+    document.getElementById("detailProductName").textContent =
+        name;
+
+    document.getElementById("detailProductPrice").textContent =
+        "₹" + price.toLocaleString("en-IN");
+
+    document.getElementById("detailProductDescription").textContent =
+        description;
+
+    document.getElementById("detailSpecCategory").textContent =
+        category;
+
+    document.getElementById("detailSpecSizes").textContent =
+        sizes.join(", ");
+
+    document.getElementById("detailSpecPrice").textContent =
+        "₹" + price.toLocaleString("en-IN");
+
+    const sizeContainer =
+        document.getElementById("detailProductSizes");
+
+    sizeContainer.innerHTML = "";
+
+    sizes.forEach(function(size,index){
+
+        const button = document.createElement("button");
+
+        button.className =
+            "detail-size" +
+            (index === 0 ? " selected" : "");
+
+        button.textContent = size;
+
+        button.onclick = function(){
+            selectDetailSize(this,size);
+        };
+
+        sizeContainer.appendChild(button);
+
+    });
+
+    document
+        .getElementById("productDetailPage")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+    window.scrollTo(0,0);
+}
+
+
+function selectDetailSize(button,size){
+
+    document
+        .querySelectorAll(".detail-size")
+        .forEach(function(btn){
+            btn.classList.remove("selected");
+        });
+
+    button.classList.add("selected");
+
+    currentDetailSize = size;
+}
+
+
+function closeProductDetail(){
+
+    document
+        .getElementById("productDetailPage")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+}
+
+
+function detailAddToCart(){
+
+    if(!currentDetailProduct) return;
+
+    const product = currentDetailProduct;
+
+    const item = {
+        productId: product.id,
+        name: product.name || product.Name || "",
+        price: Number(product.price || product.Price || 0),
+        image: product.image || product.Image || "",
+        size: currentDetailSize || "M",
+        quantity: 1
+    };
+
+    cart.push(item);
+
+    saveCart();
+    updateCart();
+
+    alert("Product added to cart.");
+}
+
+
+function detailWishlist(){
+
+    if(!currentDetailProduct) return;
+
+    let wishlist =
+        JSON.parse(
+            localStorage.getItem("vaelron_wishlist") || "[]"
+        );
+
+    const exists = wishlist.some(
+        item =>
+            String(item.id) ===
+            String(currentDetailProduct.id)
+    );
+
+    if(!exists){
+
+        wishlist.push(currentDetailProduct);
+
+        localStorage.setItem(
+            "vaelron_wishlist",
+            JSON.stringify(wishlist)
+        );
+
+        alert("Added to wishlist.");
+
+    }else{
+
+        alert("Already in wishlist.");
+
+    }
+}
+
+
+function detailBuyNow(){
+
+    if(!currentDetailProduct) return;
+
+    detailAddToCart();
+
+    closeProductDetail();
+
+    if(typeof openCheckout === "function"){
+        openCheckout();
+    }
+}
+
+
+document.addEventListener("keydown",function(event){
+
+    if(event.key === "Escape"){
+        closeProductDetail();
+    }
+
+});
+
+</script>
 
 </body>
 </html>
