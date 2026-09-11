@@ -1414,9 +1414,13 @@ footer p{
 
     <a href="#contact" onclick="closeMenu()">Contact</a>
 
-    <button class="menu-link" onclick="closeMenu();openAdminLogin()">
-        Admin Panel
-    </button>
+    <button
+    class="menu-link"
+    id="adminMenuButton"
+    onclick="closeMenu();openAdminLogin()"
+    style="display:none;">
+    Admin Panel
+</button>
 
 </nav>
 
@@ -2150,6 +2154,7 @@ footer p{
    ========================================================= */
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const ADMIN_EMAIL = "sanskruthiy@gmail.com";
 const firebaseConfig = {
   apiKey: "AIzaSyBg4XWVL7OcLPeQCEaax0fMga7Jn4ffboI",
   authDomain: "vaelron-d7fbd.firebaseapp.com",
@@ -3280,7 +3285,7 @@ function payWithUPI() {
     const email = document.getElementById("customerEmail").value.trim();
     const address = document.getElementById("customerAddress").value.trim();
     const city = document.getElementById("customerCity").value.trim();
-    const pin = document.getElementById("customerPin").value.trim();
+    const pin = document.getElementById("customerPincode").value.trim();
 
     // Check customer details
     if (!name || !phone || !email || !address || !city || !pin) {
@@ -3562,25 +3567,21 @@ async function adminLogin(event){
 
     event.preventDefault();
 
-
     const email =
         document
         .getElementById("adminEmail")
         .value
         .trim();
 
-
     const password =
         document
         .getElementById("adminPassword")
         .value;
 
-
     const message =
         document.getElementById(
             "adminLoginMessage"
         );
-
 
     if(!firebaseReady || !auth){
 
@@ -3591,6 +3592,15 @@ async function adminLogin(event){
 
     }
 
+    // Check the email BEFORE attempting admin access
+    if(email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()){
+
+        message.textContent =
+            "Access denied. Admin account only.";
+
+        return;
+
+    }
 
     try{
 
@@ -3599,15 +3609,28 @@ async function adminLogin(event){
             password
         );
 
+        // Double-check the account that actually signed in
+        if(
+            !auth.currentUser ||
+            auth.currentUser.email.toLowerCase() !==
+            ADMIN_EMAIL.toLowerCase()
+        ){
+
+            await auth.signOut();
+
+            message.textContent =
+                "Access denied. Admin account only.";
+
+            return;
+
+        }
 
         message.textContent =
             "Login successful.";
 
-
         closeAdminLogin();
 
         openAdminPanel();
-
 
     }catch(error){
 
@@ -3616,9 +3639,8 @@ async function adminLogin(event){
             error
         );
 
-
         message.textContent =
-            error.message;
+            "Invalid admin email or password.";
 
     }
 
@@ -3634,6 +3656,14 @@ function openAdminPanel(){
     if(!auth || !auth.currentUser){
 
         openAdminLogin();
+
+        return;
+
+    }
+
+    if(auth.currentUser.email !== ADMIN_EMAIL){
+
+        alert("Access denied. Admin only.");
 
         return;
 
@@ -4145,44 +4175,59 @@ async function updateOrderStatus(orderId,status){
   }
 }
 
-products = snapshot.docs.map(doc => {
+async function loadFirebaseProducts(){
+    try {
+        if (!db) {
+            products = [...defaultProducts];
+            displayProducts(products);
+            return;
+        }
 
-    const d = doc.data();
+        const snapshot = await db.collection("products").get();
 
-    return {
-        id: doc.id,
+        if (snapshot.empty) {
+            products = [...defaultProducts];
+            displayProducts(products);
+            return;
+        }
 
-        name: d.name ?? d.Name ?? "",
+        products = snapshot.docs.map(doc => {
+            const d = doc.data();
 
-        category: d.category ?? d.Category ?? "",
+            let sizes = d.sizes ?? d.Sizes ?? ["S","M","L","XL"];
 
-        price: Number(d.price ?? d.Price ?? 0),
+            if (typeof sizes === "string") {
+                sizes = sizes
+                    .split(",")
+                    .map(s => s.trim())
+                    .filter(Boolean);
+            }
 
-        description: d.description ?? d.Description ?? "",
+            if (!Array.isArray(sizes) || sizes.length === 0) {
+                sizes = ["S","M","L","XL"];
+            }
 
-        image: d.image ?? d.Image ?? "",
+            return {
+                id: doc.id,
+                name: d.name ?? d.Name ?? "",
+                category: d.category ?? d.Category ?? "",
+                price: Number(d.price ?? d.Price ?? 0),
+                description: d.description ?? d.Description ?? "",
+                image: d.image ?? d.Image ?? "",
+                sizes: sizes,
+                colour: d.colour ?? d.Colour ?? d.color ?? d.Color ?? "",
+                colors: d.colors ?? d.Colors ?? d.colours ?? d.Colours ?? []
+            };
+        });
 
-        sizes: d.sizes ?? d.Sizes ?? ["S","M","L","XL"],
+        displayProducts(products);
 
-        colour: d.colour ?? d.Colour ?? d.color ?? d.Color ?? "",
+    } catch(error) {
+        console.error("Error loading Firebase products:", error);
 
-        colors: d.colors ?? d.Colors ?? d.colours ?? d.Colours ?? []
-    };
-
-});
-
-    displayProducts(products);
-
-  }catch(error){
-
-    console.error(
-      "Could not load products:",
-      error
-    );
-
-    displayProducts(products);
-
-  }
+        products = [...defaultProducts];
+        displayProducts(products);
+    }
 }
 
 
@@ -4542,6 +4587,7 @@ document.addEventListener("keydown", function(event){
 });
     window.handleSearch = handleSearch;
 window.performSearch = performSearch;
+   window.selectSearchProduct = selectSearchProduct; 
 
     updateUPIButtonAmount();
 });
