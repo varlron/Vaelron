@@ -1945,14 +1945,35 @@ footer p{
 
                 <div class="form-group">
 
-                    <label>Image URL</label>
+    <label>Product Image</label>
 
-                    <input
-                        type="url"
-                        id="adminProductImage"
-                        placeholder="https://...">
+    <input
+        type="file"
+        id="adminProductImage"
+        accept="image/*">
 
-                </div>
+    <small style="display:block;margin-top:8px;color:#777;">
+        Select a product image from your device.
+    </small>
+
+    <div id="productImagePreview"
+         style="margin-top:12px;display:none;">
+
+        <img
+            id="productImagePreviewImg"
+            src=""
+            alt="Product Preview"
+            style="
+                width:160px;
+                height:200px;
+                object-fit:cover;
+                border-radius:8px;
+                border:1px solid #ddd;
+            ">
+
+    </div>
+
+</div>
 
 
                 <div class="form-group">
@@ -3802,22 +3823,115 @@ function clearProductForm(){
 /* =========================================================
    SAVE PRODUCT
    ========================================================= */
+const productImageInput =
+    document.getElementById("adminProductImage");
+
+if (productImageInput) {
+
+    productImageInput.addEventListener("change", function () {
+
+        const file = this.files && this.files[0];
+
+        const preview =
+            document.getElementById("productImagePreview");
+
+        const previewImg =
+            document.getElementById("productImagePreviewImg");
+
+        if (!file) {
+
+            preview.style.display = "none";
+            previewImg.src = "";
+
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("Please select an image file.");
+
+            this.value = "";
+            preview.style.display = "none";
+            previewImg.src = "";
+
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            previewImg.src = e.target.result;
+            preview.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}const productImageInput =
+    document.getElementById("adminProductImage");
+
+if (productImageInput) {
+
+    productImageInput.addEventListener("change", function () {
+
+        const file = this.files && this.files[0];
+
+        const preview =
+            document.getElementById("productImagePreview");
+
+        const previewImg =
+            document.getElementById("productImagePreviewImg");
+
+        if (!file) {
+
+            preview.style.display = "none";
+            previewImg.src = "";
+
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("Please select an image file.");
+
+            this.value = "";
+            preview.style.display = "none";
+            previewImg.src = "";
+
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            previewImg.src = e.target.result;
+            preview.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+/* =========================================================
+   SAVE PRODUCT WITH LOCAL IMAGE
+   ========================================================= */
 
 async function saveProduct(event){
 
     event.preventDefault();
 
-
     if(!auth || !auth.currentUser){
 
-        alert(
-            "Please login as admin."
-        );
-
+        alert("Please login as admin.");
         return;
 
     }
-
 
     const id =
         document
@@ -3825,82 +3939,169 @@ async function saveProduct(event){
         .value
         .trim();
 
+    const name =
+        document
+        .getElementById("adminProductName")
+        .value
+        .trim();
 
-    const product = {
+    const category =
+        document
+        .getElementById("adminProductCategory")
+        .value;
 
-        name:
+    const price =
+        Number(
             document
-            .getElementById("adminProductName")
+            .getElementById("adminProductPrice")
             .value
-            .trim(),
+        );
 
-        category:
-            document
-            .getElementById("adminProductCategory")
-            .value,
+    const description =
+        document
+        .getElementById("adminProductDescription")
+        .value
+        .trim();
 
-        price:
-            Number(
-                document
-                .getElementById("adminProductPrice")
-                .value
-            ),
+    const sizes =
+        document
+        .getElementById("adminProductSizes")
+        .value
+        .split(",")
+        .map(size => size.trim())
+        .filter(Boolean);
 
-        description:
-            document
-            .getElementById("adminProductDescription")
-            .value
-            .trim(),
+    const imageInput =
+        document.getElementById("adminProductImage");
 
-        image:
-            document
-            .getElementById("adminProductImage")
-            .value
-            .trim(),
+    const selectedFile =
+        imageInput &&
+        imageInput.files &&
+        imageInput.files[0];
 
-        sizes:
-            document
-            .getElementById("adminProductSizes")
-            .value
-            .split(",")
-            .map(size => size.trim())
-            .filter(Boolean)
+    if(!name){
 
-    };
-alert("Firebase save started");
+        alert("Please enter the product name.");
+        return;
+
+    }
+
+    if(!price || price < 0){
+
+        alert("Please enter a valid price.");
+        return;
+
+    }
+
+    if(!sizes.length){
+
+        alert("Please enter at least one size.");
+        return;
+
+    }
 
     try{
+
+        let image = "";
+
+        /*
+         * If editing an existing product and no new image
+         * is selected, keep the old image.
+         */
+
+        if(id){
+
+            const existingDoc =
+                await db
+                .collection("products")
+                .doc(id)
+                .get();
+
+            if(existingDoc.exists){
+
+                const existingData =
+                    existingDoc.data();
+
+                image =
+                    existingData.image || "";
+
+            }
+
+        }
+
+        /*
+         * If a new image was selected,
+         * compress it and convert it to a Data URL.
+         */
+
+        if(selectedFile){
+
+            if(!selectedFile.type.startsWith("image/")){
+
+                alert("Please select a valid image.");
+                return;
+
+            }
+
+            image =
+                await compressProductImage(
+                    selectedFile
+                );
+
+        }
+
+        /*
+         * New products must have an image.
+         */
+
+        if(!image){
+
+            alert("Please select a product image.");
+            return;
+
+        }
+
+        const product = {
+
+            name: name,
+
+            category: category,
+
+            price: price,
+
+            description: description,
+
+            image: image,
+
+            sizes: sizes
+
+        };
 
         if(id){
 
             await db
-                .collection("products")
-                .doc(id)
-                .set(
-                    product,
-                    {merge:true}
-                );
+            .collection("products")
+            .doc(id)
+            .set(
+                product,
+                {merge:true}
+            );
 
         }else{
 
             await db
-                .collection("products")
-                .add(product);
+            .collection("products")
+            .add(product);
 
         }
 
-
-        alert(
-            "Product saved successfully."
-        );
-
+        alert("Product saved successfully.");
 
         clearProductForm();
 
         await loadFirebaseProducts();
 
         await loadAdminProducts();
-
 
     }catch(error){
 
@@ -3909,13 +4110,156 @@ alert("Firebase save started");
             error
         );
 
-
         alert(
             "Could not save product:\n" +
             error.message
         );
 
     }
+
+}
+
+
+/* =========================================================
+   COMPRESS PRODUCT IMAGE
+   ========================================================= */
+
+function compressProductImage(file){
+
+    return new Promise((resolve,reject)=>{
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function(event){
+
+            const img =
+                new Image();
+
+            img.onload = function(){
+
+                const maxWidth = 900;
+                const maxHeight = 1200;
+
+                let width = img.width;
+                let height = img.height;
+
+                if(width > maxWidth){
+
+                    height =
+                        height *
+                        (maxWidth / width);
+
+                    width = maxWidth;
+
+                }
+
+                if(height > maxHeight){
+
+                    width =
+                        width *
+                        (maxHeight / height);
+
+                    height = maxHeight;
+
+                }
+
+                const canvas =
+                    document.createElement("canvas");
+
+                canvas.width =
+                    Math.round(width);
+
+                canvas.height =
+                    Math.round(height);
+
+                const ctx =
+                    canvas.getContext("2d");
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                /*
+                 * JPEG quality is reduced so the image
+                 * stays small enough for Firestore.
+                 */
+
+                let quality = 0.75;
+
+                let dataURL =
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        quality
+                    );
+
+                /*
+                 * Keep reducing quality if the image
+                 * is still too large.
+                 */
+
+                while(
+                    dataURL.length > 850000 &&
+                    quality > 0.35
+                ){
+
+                    quality -= 0.05;
+
+                    dataURL =
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            quality
+                        );
+
+                }
+
+                if(dataURL.length > 950000){
+
+                    reject(
+                        new Error(
+                            "This image is still too large. Please choose a smaller image."
+                        )
+                    );
+
+                    return;
+
+                }
+
+                resolve(dataURL);
+
+            };
+
+            img.onerror = function(){
+
+                reject(
+                    new Error(
+                        "Could not read the selected image."
+                    )
+                );
+
+            };
+
+            img.src =
+                event.target.result;
+
+        };
+
+        reader.onerror = function(){
+
+            reject(
+                new Error(
+                    "Could not read the image file."
+                )
+            );
+
+
+        reader.readAsDataURL(file);
+
+    });
 
 }
   async function loadAdminProducts(){
