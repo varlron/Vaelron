@@ -1734,17 +1734,7 @@ footer p{
 
                 </label>
 
-                <label class="payment-option">
-
-                    <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="COD"
-                        onchange="hideUPI()">
-
-                    Cash on Delivery
-
-                </label>
+            
 
             </div>
 
@@ -4265,6 +4255,18 @@ if(firebaseReady && auth){
       document.getElementById("firebaseStatus");
 
     if(user){
+              const adminButton =
+        document.getElementById("adminMenuButton");
+
+      if(
+        adminButton &&
+        user.email &&
+        user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+      ){
+        adminButton.style.display = "block";
+      }else if(adminButton){
+        adminButton.style.display = "none";
+      }
 
       status.textContent=
         "Logged in as " + user.email;
