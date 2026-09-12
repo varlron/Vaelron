@@ -3822,55 +3822,8 @@ function clearProductForm(){
 
 /* =========================================================
    SAVE PRODUCT
-   ========================================================= */
-const productImageInput =
-    document.getElementById("adminProductImage");
-
-if (productImageInput) {
-
-    productImageInput.addEventListener("change", function () {
-
-        const file = this.files && this.files[0];
-
-        const preview =
-            document.getElementById("productImagePreview");
-
-        const previewImg =
-            document.getElementById("productImagePreviewImg");
-
-        if (!file) {
-
-            preview.style.display = "none";
-            previewImg.src = "";
-
-            return;
-        }
-
-        if (!file.type.startsWith("image/")) {
-
-            alert("Please select an image file.");
-
-            this.value = "";
-            preview.style.display = "none";
-            previewImg.src = "";
-
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-
-            previewImg.src = e.target.result;
-            preview.style.display = "block";
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-}const productImageInput =
+   ================================================
+   const productImageInput =
     document.getElementById("adminProductImage");
 
 if (productImageInput) {
