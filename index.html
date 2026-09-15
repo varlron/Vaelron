@@ -3974,7 +3974,11 @@ async function saveProduct(event){
     if(event){
         event.preventDefault();
     }
-
+alert(
+    "DB: " + (db ? "OK" : "NOT READY") +
+    "\nLogin: " + (auth && auth.currentUser ? auth.currentUser.email : "NOT LOGGED IN") +
+    "\nImage: " + (uploadedProductImageUrl ? "OK" : "NO IMAGE")
+);
     if(!auth || !auth.currentUser){
         alert("Please login as admin.");
         return;
