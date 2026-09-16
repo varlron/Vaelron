@@ -2866,9 +2866,16 @@ function loadCart(){
 
         }
 
-    
+    }catch(error){
+
+        console.error("Could not load cart:", error);
+
+        cart = [];
+
+    }
 
 }
+
 function openAccount(){
 
     const user =
