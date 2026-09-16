@@ -3891,7 +3891,7 @@ if(productImageInput){
             }
 
             try{
-                alert("Starting Firebase save...");
+                
 
                 const formData =
                     new FormData();
@@ -3970,16 +3970,12 @@ if(productImageInput){
     );
 }
 async function saveProduct(event){
-    alert("SAVE PRODUCT FUNCTION WORKS");
+    
 
     if(event){
         event.preventDefault();
     }
-alert(
-    "DB: " + (db ? "OK" : "NOT READY") +
-    "\nLogin: " + (auth && auth.currentUser ? auth.currentUser.email : "NOT LOGGED IN") +
-    "\nImage: " + (uploadedProductImageUrl ? "OK" : "NO IMAGE")
-);
+
     if(!auth || !auth.currentUser){
         alert("Please login as admin.");
         return;
@@ -4064,7 +4060,7 @@ alert(
         );
         return;
     }
-
+alert("All product details are ready. Creating product...");
     const product = {
         name: name,
         category: category,
