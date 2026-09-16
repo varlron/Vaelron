@@ -4020,7 +4020,12 @@ alert(
             .split(",")
             .map(size => size.trim())
             .filter(Boolean);
-
+alert(
+    "Name: " + name +
+    "\nPrice: " + price +
+    "\nCategory: " + category +
+    "\nSizes: " + sizes.join(", ")
+);
     if(!name){
         alert("Please enter a product name.");
         return;
