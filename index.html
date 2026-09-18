@@ -3490,9 +3490,11 @@ async function submitOrder(event){
 
 
         const docRef =
-            await db
-            .collection("orders")
-            .add(order);
+            const testRef = await db
+    .collection("products")
+    .add(product);
+
+alert("FIRESTORE WRITE SUCCESS: " + testRef.id);
 
 
         alert(
