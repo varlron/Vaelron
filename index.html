@@ -4048,7 +4048,9 @@ async function saveProduct(event){
      */
 
     const imageUrl =
-        uploadedProductImageUrl || "";
+    uploadedProductImageUrl ||
+    document.getElementById("adminProductImageUrl")?.value.trim() ||
+    "";
 
     if(!imageUrl){
         alert(
