@@ -4084,11 +4084,23 @@ async function saveProduct(event){
             product.createdAt =
                 firebase.firestore.FieldValue.serverTimestamp();
 
-            await db
-                .collection("products")
-                .add(product);
+            const docRef = await db
+    .collection("products")
+    .add(product);
 
-            alert("Product added successfully.");
+console.log("FIRESTORE PROJECT:", db.app.options.projectId);
+console.log("SAVED PRODUCT ID:", docRef.id);
+
+const verifyDoc = await docRef.get();
+
+console.log("DOCUMENT EXISTS:", verifyDoc.exists);
+console.log("DOCUMENT DATA:", verifyDoc.data());
+
+alert(
+    "FIRESTORE WRITE SUCCESS!\n\n" +
+    "Document ID: " + docRef.id + "\n" +
+    "Exists in Firestore: " + verifyDoc.exists
+);
         }
 
         clearProductForm();
